@@ -2,7 +2,7 @@ name: Run Terraform and Script on Server
 on:
   push:
     branches:
-      - main  # Trigger on push to the main branch    
+      - main  # Trigger on push to the main branch   
 jobs:
   deploy:
     runs-on: ubuntu-latest
