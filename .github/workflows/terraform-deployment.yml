@@ -1,0 +1,51 @@
+name: Run Terraform and Script on Server
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the repository to get Terraform files
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Terraform
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.9.6  # Specify your Terraform version
+
+    # Step 3: Terraform initialization and execution
+    - name: Initialize Terraform
+      run: terraform init
+
+    - name: Validate Terraform configuration
+      run: terraform validate
+
+    - name: Plan Terraform deployment
+      run: terraform plan -out=tfplan
+
+    - name: Apply Terraform configuration
+      run: terraform apply -auto-approve tfplan
+
+    # Step 4: Wait for the server to be ready (optional but recommended)
+    # This step ensures Terraform has finished creating the server and the server is ready for SSH
+    
+    #- name: Wait for server to be ready
+     # run: sleep 60  # Adjust this based on how long your server takes to be ready
+
+    # Step 5: Run the script on the server via SSH
+    - name: Run script on server via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SERVER_IP }}  # Server IP stored in GitHub secrets
+        username: ${{ secrets.SERVER_USER }}  # SSH user (e.g., ec2-user) stored in secrets
+        key: ${{ secrets.SSH_PRIVATE_KEY }}  # SSH private key stored in secrets
+        script: |
+          cd /root  # Navigate to the script location on the server
+          ./install_python3_8_amazon_linux_2023.sh  # Run your custom script
