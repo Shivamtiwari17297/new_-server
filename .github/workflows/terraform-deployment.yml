@@ -41,7 +41,7 @@ jobs:
         host: ${{ secrets.SERVER_IP }}  # Server IP stored in GitHub secrets
         username: ${{ secrets.SERVER_USER }}  # SSH user (e.g., ec2-user) stored in secrets
         key: ${{ secrets.SSH_PRIVATE_KEY }}  # SSH private key stored in secrets
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+       # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           cd /home/ec2-user  # Navigate to the script location on the server
           ./python_install.sh  # Run your custom script
