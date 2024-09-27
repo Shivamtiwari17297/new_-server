@@ -54,4 +54,4 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}  # SSH private key stored in secrets
         script: |
           cd /home/ec2-user  # Navigate to the script location on the server
-          ./install_python3_8_amazon_linux_2023.sh  # Run your custom script
+          ./python_install.sh  # Run your custom script
