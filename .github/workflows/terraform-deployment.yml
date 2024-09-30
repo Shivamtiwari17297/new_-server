@@ -1,4 +1,5 @@
 name: Run Terraform and Script on Server
+
 on:
   push:
     branches:
